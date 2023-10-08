@@ -1,44 +1,18 @@
+import { useState } from "react";
 import logo from "./logo.svg";
 import "./App.css";
 
-function BillForm() {
-    return (
-        <form action="">
-            <label htmlFor="billInput">Bill</label>
-            <input type="number" id="billInput" placeholder="0" />
-            <fieldset>
-                <legend>Select Tip %</legend>
-                <div>
-                    <input type="radio" id="5" />
-                    <label htmlFor="5">5%</label>
-                </div>
-                <div>
-                    <input type="radio" id="10" />
-                    <label htmlFor="10">10%</label>
-                </div>
-                <div>
-                    <input type="radio" id="15" />
-                    <label htmlFor="15">15%</label>
-                </div>
-                <div>
-                    <input type="radio" id="25" />
-                    <label htmlFor="25">25%</label>
-                </div>
-                <div>
-                    <input type="radio" id="50" />
-                    <label htmlFor="50">50%</label>
-                </div>
-                <div>
-                    <input type="number" id="custom" placeholder="Custom" />
-                </div>
-            </fieldset>
-            <label htmlFor="people">Number of People</label>
-            <input type="number" id="people" />
-        </form>
-    );
-}
+function TipCalculatorCard() {
+    const [bill, setBill] = useState();
+    const [people, setPeople] = useState();
 
-function App() {
+    let tipAmount;
+    if (bill && people) {
+        tipAmount = (bill / people).toFixed(2);
+    } else {
+        tipAmount = 0;
+    }
+
     return (
         <div className="App">
             <header className="App-header">
@@ -46,12 +20,89 @@ function App() {
             </header>
             <div>
                 <div>
-                    <BillForm />
+                    <BillForm
+                        bill={bill}
+                        onBillChange={setBill}
+                        people={people}
+                        onPeopleChange={setPeople}
+                    />
                 </div>
-                <div></div>
+                <div>
+                    <Amount text={"Tip Amount"} amount={tipAmount} />
+                    <Amount text={"Total"} amount={0} />
+                    <button>RESET</button>
+                </div>
             </div>
         </div>
     );
+}
+
+function TipSelect() {
+    const tips = [5, 10, 15, 25, 50];
+
+    let tipsSelect = tips.map((tip) => {
+        return (
+            <div key={tip}>
+                <input type="radio" name="tip" id={tip} />
+                <label htmlFor={tip}>{tip}%</label>
+            </div>
+        );
+    });
+    return (
+        <fieldset>
+            <legend>Select Tip %</legend>
+            {tipsSelect}
+            <div>
+                <input type="number" id="custom" placeholder="Custom" />
+            </div>
+        </fieldset>
+    );
+}
+
+function BillForm({ bill, onBillChange, people, onPeopleChange }) {
+    return (
+        <form action="">
+            <label htmlFor="billInput">Bill</label>
+            <input
+                type="number"
+                id="billInput"
+                placeholder="0"
+                value={bill}
+                onChange={(e) => {
+                    onBillChange(e.target.value);
+                }}
+            />
+            <TipSelect />
+            <label htmlFor="people">Number of People</label>
+            <input
+                type="number"
+                id="people"
+                placeholder="0"
+                value={people}
+                onChange={(e) => {
+                    onPeopleChange(e.target.value);
+                }}
+            />
+        </form>
+    );
+}
+
+function Amount({ text, amount }) {
+    return (
+        <div>
+            <div>
+                <p>{text}</p>
+                <span>/ person</span>
+            </div>
+            <div>
+                <p>${amount}</p>
+            </div>
+        </div>
+    );
+}
+
+function App() {
+    return <TipCalculatorCard />;
 }
 
 export default App;
