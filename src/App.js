@@ -3,14 +3,24 @@ import logo from "./logo.svg";
 import "./App.css";
 
 function TipCalculatorCard() {
-    const [bill, setBill] = useState();
-    const [people, setPeople] = useState();
+    const tips = [5, 10, 15, 25, 50];
+    const [bill, setBill] = useState(0);
+    const [people, setPeople] = useState(0);
+    const [percent, setPercent] = useState(0);
+    const onChangeValue = (e) => {
+        console.log(e.target);
+        console.log(e.target.type);
+        setPercent(Number(e.target.value));
+    };
 
     let tipAmount;
-    if (bill && people) {
-        tipAmount = (bill / people).toFixed(2);
+    let total;
+    if (bill && people && percent !== 0) {
+        tipAmount = Number(((bill * (percent / 100)) / people).toFixed(2));
+        total = (bill / people + tipAmount).toFixed(2);
     } else {
         tipAmount = 0;
+        total = 0;
     }
 
     return (
@@ -25,11 +35,13 @@ function TipCalculatorCard() {
                         onBillChange={setBill}
                         people={people}
                         onPeopleChange={setPeople}
+                        tips={tips}
+                        onPercentChange={onChangeValue}
                     />
                 </div>
                 <div>
                     <Amount text={"Tip Amount"} amount={tipAmount} />
-                    <Amount text={"Total"} amount={0} />
+                    <Amount text={"Total"} amount={total} />
                     <button>RESET</button>
                 </div>
             </div>
@@ -37,19 +49,17 @@ function TipCalculatorCard() {
     );
 }
 
-function TipSelect() {
-    const tips = [5, 10, 15, 25, 50];
-
+function TipSelect({ tips, onPercentChange }) {
     let tipsSelect = tips.map((tip) => {
         return (
             <div key={tip}>
-                <input type="radio" name="tip" id={tip} />
+                <input type="radio" name="tip" id={tip} value={tip} />
                 <label htmlFor={tip}>{tip}%</label>
             </div>
         );
     });
     return (
-        <fieldset>
+        <fieldset onChange={onPercentChange}>
             <legend>Select Tip %</legend>
             {tipsSelect}
             <div>
@@ -59,7 +69,15 @@ function TipSelect() {
     );
 }
 
-function BillForm({ bill, onBillChange, people, onPeopleChange }) {
+function BillForm({
+    bill,
+    onBillChange,
+    people,
+    onPeopleChange,
+    tips,
+    percent,
+    onPercentChange,
+}) {
     return (
         <form action="">
             <label htmlFor="billInput">Bill</label>
@@ -72,7 +90,11 @@ function BillForm({ bill, onBillChange, people, onPeopleChange }) {
                     onBillChange(e.target.value);
                 }}
             />
-            <TipSelect />
+            <TipSelect
+                tips={tips}
+                percent={percent}
+                onPercentChange={onPercentChange}
+            />
             <label htmlFor="people">Number of People</label>
             <input
                 type="number"
