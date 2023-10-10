@@ -6,16 +6,26 @@ function TipCalculatorCard() {
     const tips = [5, 10, 15, 25, 50];
     const [bill, setBill] = useState(0);
     const [people, setPeople] = useState(0);
-    const [percent, setPercent] = useState(0);
-    const onChangeValue = (e) => {
-        console.log(e.target);
-        console.log(e.target.type);
-        setPercent(Number(e.target.value));
+    const [selectedPercent, setSelectedPercent] = useState(null);
+    const [customPercent, setCustomPercent] = useState(0);
+
+    const handleTipSelection = (percent) => {
+        setSelectedPercent(percent);
+        setCustomPercent("");
+    };
+    const handleCustomTip = (e) => {
+        setCustomPercent(Number(e.target.value));
+        if (selectedPercent !== null) {
+            setSelectedPercent(null);
+        }
     };
 
     let tipAmount;
     let total;
-    if (bill && people && percent !== 0) {
+    if (bill && people && (selectedPercent !== 0 || customPercent !== 0)) {
+        let percent =
+            selectedPercent === null ? customPercent : selectedPercent;
+        console.log(percent);
         tipAmount = Number(((bill * (percent / 100)) / people).toFixed(2));
         total = (bill / people + tipAmount).toFixed(2);
     } else {
@@ -36,7 +46,10 @@ function TipCalculatorCard() {
                         people={people}
                         onPeopleChange={setPeople}
                         tips={tips}
-                        onPercentChange={onChangeValue}
+                        selectedPercent={selectedPercent}
+                        onTipSelection={handleTipSelection}
+                        customPercent={customPercent}
+                        onCustomPercentChange={handleCustomTip}
                     />
                 </div>
                 <div>
@@ -49,21 +62,41 @@ function TipCalculatorCard() {
     );
 }
 
-function TipSelect({ tips, onPercentChange }) {
+function TipSelect({
+    tips,
+    selectedPercent,
+    onTipSelection,
+    customPercent,
+    onCustomPercentChange,
+}) {
     let tipsSelect = tips.map((tip) => {
         return (
             <div key={tip}>
-                <input type="radio" name="tip" id={tip} value={tip} />
+                <input
+                    type="radio"
+                    name="tip"
+                    id={tip}
+                    value={tip}
+                    checked={selectedPercent === tip}
+                    onChange={() => onTipSelection(tip)}
+                />
                 <label htmlFor={tip}>{tip}%</label>
             </div>
         );
     });
     return (
-        <fieldset onChange={onPercentChange}>
+        <fieldset>
             <legend>Select Tip %</legend>
             {tipsSelect}
             <div>
-                <input type="number" id="custom" placeholder="Custom" />
+                <input
+                    type="number"
+                    id="custom"
+                    placeholder="Custom"
+                    value={customPercent}
+                    onChange={onCustomPercentChange}
+                    min={0}
+                />
             </div>
         </fieldset>
     );
@@ -75,8 +108,10 @@ function BillForm({
     people,
     onPeopleChange,
     tips,
-    percent,
-    onPercentChange,
+    selectedPercent,
+    onTipSelection,
+    customPercent,
+    onCustomPercentChange,
 }) {
     return (
         <form action="">
@@ -89,11 +124,14 @@ function BillForm({
                 onChange={(e) => {
                     onBillChange(e.target.value);
                 }}
+                min={0}
             />
             <TipSelect
                 tips={tips}
-                percent={percent}
-                onPercentChange={onPercentChange}
+                selectedPercent={selectedPercent}
+                onTipSelection={onTipSelection}
+                customPercent={customPercent}
+                onCustomPercentChange={onCustomPercentChange}
             />
             <label htmlFor="people">Number of People</label>
             <input
@@ -104,6 +142,7 @@ function BillForm({
                 onChange={(e) => {
                     onPeopleChange(e.target.value);
                 }}
+                min={0}
             />
         </form>
     );
