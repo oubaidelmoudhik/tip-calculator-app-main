@@ -4,10 +4,10 @@ import "./App.css";
 
 function TipCalculatorCard() {
     const tips = [5, 10, 15, 25, 50];
-    const [bill, setBill] = useState(0);
-    const [people, setPeople] = useState(0);
+    const [bill, setBill] = useState("");
+    const [people, setPeople] = useState("");
     const [selectedPercent, setSelectedPercent] = useState(null);
-    const [customPercent, setCustomPercent] = useState(0);
+    const [customPercent, setCustomPercent] = useState("");
 
     const handleTipSelection = (percent) => {
         setSelectedPercent(percent);
@@ -57,9 +57,14 @@ function TipCalculatorCard() {
                         onCustomPercentChange={handleCustomTip}
                     />
                 </div>
-                <div>
-                    <Amount text={"Tip Amount"} amount={tipAmount} />
-                    <Amount text={"Total"} amount={total} />
+                <div className="app__totals">
+                    <div className="app__totals__amounts">
+                        <Amount
+                            text={"Tip Amount"}
+                            amount={tipAmount.toFixed(2)}
+                        />
+                        <Amount text={"Total"} amount={total.toFixed(2)} />
+                    </div>
                     <button onClick={handleReset}>RESET</button>
                 </div>
             </div>
@@ -161,7 +166,7 @@ function Amount({ text, amount }) {
                 <span>/ person</span>
             </div>
             <div>
-                <p>${amount}</p>
+                <h2>${amount}</h2>
             </div>
         </div>
     );
