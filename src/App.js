@@ -20,12 +20,17 @@ function TipCalculatorCard() {
         }
     };
 
+    const handleReset = () => {
+        setBill(0);
+        setPeople(0);
+        setSelectedPercent(null);
+        setCustomPercent(0);
+    };
     let tipAmount;
     let total;
     if (bill && people && (selectedPercent !== 0 || customPercent !== 0)) {
         let percent =
             selectedPercent === null ? customPercent : selectedPercent;
-        console.log(percent);
         tipAmount = Number(((bill * (percent / 100)) / people).toFixed(2));
         total = (bill / people + tipAmount).toFixed(2);
     } else {
@@ -38,7 +43,7 @@ function TipCalculatorCard() {
             <header className="App-header">
                 <img src={logo} className="App-logo" alt="logo" />
             </header>
-            <div>
+            <div className="app__card">
                 <div>
                     <BillForm
                         bill={bill}
@@ -55,7 +60,7 @@ function TipCalculatorCard() {
                 <div>
                     <Amount text={"Tip Amount"} amount={tipAmount} />
                     <Amount text={"Total"} amount={total} />
-                    <button>RESET</button>
+                    <button onClick={handleReset}>RESET</button>
                 </div>
             </div>
         </div>
@@ -161,9 +166,35 @@ function Amount({ text, amount }) {
         </div>
     );
 }
+function Footer() {
+    return (
+        <div className="attribution">
+            Challenge by{" "}
+            <a
+                href="https://www.frontendmentor.io?ref=challenge"
+                target="_blank"
+            >
+                Frontend Mentor
+            </a>
+            . Coded by{" "}
+            <a
+                href="https://www.linkedin.com/in/oubaidelmoudhik/"
+                target="_blank"
+            >
+                Oubaid
+            </a>
+            .
+        </div>
+    );
+}
 
 function App() {
-    return <TipCalculatorCard />;
+    return (
+        <>
+            <TipCalculatorCard />
+            <Footer />
+        </>
+    );
 }
 
 export default App;

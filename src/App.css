@@ -1,9 +1,13 @@
+@import url("./index.css");
+
 .App {
-    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 4em;
 }
 
 .App-logo {
-    width: 10%;
+    width: 15%;
     pointer-events: none;
 }
 
@@ -18,4 +22,12 @@
 
 .App-link {
     color: #61dafb;
+}
+
+.app__card {
+    display: flex;
+    padding: 2em;
+    background-color: var(--white);
+    border-radius: 15px;
+    gap: 3em;
 }
