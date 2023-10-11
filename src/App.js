@@ -28,11 +28,11 @@ function TipCalculatorCard() {
     };
     let tipAmount;
     let total;
-    if (bill && people && (selectedPercent !== 0 || customPercent !== 0)) {
+    if (bill && people > 0 && (selectedPercent !== 0 || customPercent !== 0)) {
         let percent =
             selectedPercent === null ? customPercent : selectedPercent;
         tipAmount = Number(((bill * (percent / 100)) / people).toFixed(2));
-        total = (bill / people + tipAmount).toFixed(2);
+        total = Number((bill / people + tipAmount).toFixed(2));
     } else {
         tipAmount = 0;
         total = 0;
@@ -111,7 +111,23 @@ function TipSelect({
         </fieldset>
     );
 }
-
+function FormInput({ id, title, value, onChange }) {
+    return (
+        <div className="form__input">
+            <label htmlFor={id}>{title}</label>
+            <input
+                type="number"
+                id={id}
+                placeholder="0"
+                value={value}
+                onChange={(e) => {
+                    onChange(e.target.value);
+                }}
+                min={0}
+            />
+        </div>
+    );
+}
 function BillForm({
     bill,
     onBillChange,
@@ -125,16 +141,11 @@ function BillForm({
 }) {
     return (
         <form action="">
-            <label htmlFor="billInput">Bill</label>
-            <input
-                type="number"
+            <FormInput
                 id="billInput"
-                placeholder="0"
+                title="Bill"
                 value={bill}
-                onChange={(e) => {
-                    onBillChange(e.target.value);
-                }}
-                min={0}
+                onChange={onBillChange}
             />
             <TipSelect
                 tips={tips}
@@ -143,16 +154,11 @@ function BillForm({
                 customPercent={customPercent}
                 onCustomPercentChange={onCustomPercentChange}
             />
-            <label htmlFor="people">Number of People</label>
-            <input
-                type="number"
-                id="people"
-                placeholder="0"
+            <FormInput
+                id="peopleInput"
+                title="Number of People"
                 value={people}
-                onChange={(e) => {
-                    onPeopleChange(e.target.value);
-                }}
-                min={0}
+                onChange={onPeopleChange}
             />
         </form>
     );
