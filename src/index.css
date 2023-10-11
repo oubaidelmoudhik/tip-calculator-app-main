@@ -108,6 +108,19 @@ select {
         scroll-behavior: auto !important;
     }
 }
+input {
+    border: none;
+    background-color: var(--very-light-grayish-cyan);
+    text-align: end;
+    color: var(--very-dark-cyan);
+    padding: 5px 15px;
+    border-radius: 3px;
+    outline: none;
+}
+input::-webkit-input-placeholder {
+    color: var(--grayish-cyan);
+}
+
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
     -webkit-appearance: none;
@@ -120,4 +133,6 @@ input[type="number"] {
 
 fieldset {
     border: none;
+    margin: 0;
+    padding: 0;
 }

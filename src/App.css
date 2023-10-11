@@ -4,10 +4,11 @@
     display: flex;
     flex-direction: column;
     gap: 4em;
+    align-items: center;
 }
 
 .App-logo {
-    width: 15%;
+    width: 100%;
     pointer-events: none;
 }
 
@@ -30,6 +31,7 @@
     background-color: var(--white);
     border-radius: 15px;
     gap: 3em;
+    width: 70%;
 }
 
 .app__totals {
@@ -69,11 +71,46 @@
     flex-direction: column;
 }
 
-.form__input input {
-    border: none;
-    background-color: var(--very-light-grayish-cyan);
-    text-align: end;
-    color: var(--very-dark-cyan);
-    padding: 5px 15px;
+#billInput::after {
+    content: url("../public/icon-dollar.svg");
+    width: 10px;
+    height: 10px;
+    top: 0;
+}
+
+fieldset > div {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    align-items: center;
+    justify-items: center;
+    gap: 10px;
+}
+fieldset > div > div {
+    width: 100%;
+}
+.select {
+    display: block;
+    background-color: var(--very-dark-cyan);
+    color: var(--white);
     border-radius: 3px;
+    width: 100%;
+    text-align: center;
+    padding: 7px 2px;
+    transition: background-color 0.3s ease-in-out;
+    transition: color 0.3s ease-in-out;
+}
+.custom {
+    background-color: var(--very-light-grayish-cyan);
+}
+#custom {
+    padding: 0;
+    width: 100%;
+    text-align: center;
+}
+.select input[type="radio"] {
+    display: none;
+}
+.checked {
+    background-color: var(--strong-cyan);
+    color: var(--very-dark-cyan);
 }

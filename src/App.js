@@ -80,33 +80,41 @@ function TipSelect({
     onCustomPercentChange,
 }) {
     let tipsSelect = tips.map((tip) => {
+        let checked = selectedPercent === tip;
         return (
             <div key={tip}>
-                <input
-                    type="radio"
-                    name="tip"
-                    id={tip}
-                    value={tip}
-                    checked={selectedPercent === tip}
-                    onChange={() => onTipSelection(tip)}
-                />
-                <label htmlFor={tip}>{tip}%</label>
+                <label
+                    htmlFor={tip}
+                    className={checked ? "select checked" : "select"}
+                >
+                    {tip}%
+                    <input
+                        type="radio"
+                        name="tip"
+                        id={tip}
+                        value={tip}
+                        checked={checked}
+                        onChange={() => onTipSelection(tip)}
+                    />
+                </label>
             </div>
         );
     });
     return (
         <fieldset>
             <legend>Select Tip %</legend>
-            {tipsSelect}
             <div>
-                <input
-                    type="number"
-                    id="custom"
-                    placeholder="Custom"
-                    value={customPercent}
-                    onChange={onCustomPercentChange}
-                    min={0}
-                />
+                {tipsSelect}
+                <div className="select custom">
+                    <input
+                        type="number"
+                        id="custom"
+                        placeholder="Custom"
+                        value={customPercent}
+                        onChange={onCustomPercentChange}
+                        min={0}
+                    />
+                </div>
             </div>
         </fieldset>
     );
@@ -184,6 +192,7 @@ function Footer() {
             <a
                 href="https://www.frontendmentor.io?ref=challenge"
                 target="_blank"
+                rel="noreferrer"
             >
                 Frontend Mentor
             </a>
@@ -191,6 +200,7 @@ function Footer() {
             <a
                 href="https://www.linkedin.com/in/oubaidelmoudhik/"
                 target="_blank"
+                rel="noreferrer"
             >
                 Oubaid
             </a>
