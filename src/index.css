@@ -137,3 +137,11 @@ fieldset {
     margin: 0;
     padding: 0;
 }
+a {
+    text-decoration: none;
+    color: var(--very-dark-cyan);
+    transition: 0.3s ease-in-out;
+}
+a:hover {
+    color: var(--strong-cyan);
+}
