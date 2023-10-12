@@ -37,7 +37,7 @@ function TipCalculatorCard() {
         tipAmount = 0;
         total = 0;
     }
-
+    const resetEnable = bill || people || selectedPercent || customPercent;
     return (
         <div className="App">
             <header className="App-header">
@@ -65,7 +65,14 @@ function TipCalculatorCard() {
                         />
                         <Amount text={"Total"} amount={total.toFixed(2)} />
                     </div>
-                    <button onClick={handleReset}>RESET</button>
+                    <button
+                        type="button"
+                        className="reset__btn"
+                        disabled={resetEnable ? false : true}
+                        onClick={handleReset}
+                    >
+                        RESET
+                    </button>
                 </div>
             </div>
         </div>
@@ -101,8 +108,8 @@ function TipSelect({
         );
     });
     return (
-        <fieldset>
-            <legend>Select Tip %</legend>
+        <div className="fieldset">
+            <label>Select Tip %</label>
             <div>
                 {tipsSelect}
                 <div className="select custom">
@@ -116,7 +123,7 @@ function TipSelect({
                     />
                 </div>
             </div>
-        </fieldset>
+        </div>
     );
 }
 function FormInput({ id, title, value, onChange }) {
@@ -148,7 +155,7 @@ function BillForm({
     onCustomPercentChange,
 }) {
     return (
-        <form action="">
+        <form action="" className="form">
             <FormInput
                 id="billInput"
                 title="Bill"
@@ -175,7 +182,7 @@ function BillForm({
 function Amount({ text, amount }) {
     return (
         <div>
-            <div>
+            <div className="total__text">
                 <p>{text}</p>
                 <span>/ person</span>
             </div>
@@ -188,15 +195,7 @@ function Amount({ text, amount }) {
 function Footer() {
     return (
         <div className="attribution">
-            Challenge by{" "}
-            <a
-                href="https://www.frontendmentor.io?ref=challenge"
-                target="_blank"
-                rel="noreferrer"
-            >
-                Frontend Mentor
-            </a>
-            . Coded by{" "}
+            Coded by{" "}
             <a
                 href="https://www.linkedin.com/in/oubaidelmoudhik/"
                 target="_blank"

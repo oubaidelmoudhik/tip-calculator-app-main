@@ -20,22 +20,34 @@
     font-size: calc(10px + 2vmin);
     color: white;
 }
-
+.attribution {
+    text-align: center;
+}
 .App-link {
     color: #61dafb;
 }
 
 .app__card {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
     padding: 2em;
     background-color: var(--white);
     border-radius: 15px;
     gap: 3em;
-    width: 70%;
+    width: 60%;
+    transition: 0.3s ease-in-out;
 }
-
+@media (width <= 1022px) {
+    .app__card {
+        grid-template-columns: 1fr;
+        gap: 2em;
+        /* transition: grid-template-columns 0.3s ease-in-out; */
+    }
+    #root {
+        padding: 4em 0;
+    }
+}
 .app__totals {
-    width: 50%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -43,10 +55,15 @@
     padding: 2em;
     border-radius: 10px;
 }
+.total__text {
+    display: flex;
+    flex-direction: column;
+}
 .app__totals__amounts {
     display: flex;
     flex-direction: column;
     align-items: center;
+    gap: 1.5em;
 }
 .app__totals__amounts > div {
     width: 100%;
@@ -65,7 +82,17 @@
     font-size: 2.5em;
     color: var(--strong-cyan);
 }
-
+.form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 2em;
+}
+.form > div {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+}
 .form__input {
     display: flex;
     flex-direction: column;
@@ -78,14 +105,14 @@
     top: 0;
 }
 
-fieldset > div {
+.fieldset > div {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     align-items: center;
     justify-items: center;
     gap: 10px;
 }
-fieldset > div > div {
+.fieldset > div > div {
     width: 100%;
 }
 .select {
@@ -113,4 +140,15 @@ fieldset > div > div {
 .checked {
     background-color: var(--strong-cyan);
     color: var(--very-dark-cyan);
+}
+
+.reset__btn {
+    background-color: var(--strong-cyan);
+    padding: 8px 0;
+    border: none;
+    outline: none;
+    border-radius: 3px;
+}
+.reset__btn:disabled {
+    background-color: var(--very-dark-cyan-2);
 }
