@@ -46,6 +46,9 @@
     #root {
         padding: 4em 0;
     }
+    .app__totals {
+        gap: 3em;
+    }
 }
 .app__totals {
     display: flex;
