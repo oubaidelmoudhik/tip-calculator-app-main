@@ -41,7 +41,7 @@
     .app__card {
         grid-template-columns: 1fr;
         gap: 2em;
-        /* transition: grid-template-columns 0.3s ease-in-out; */
+        width: 100%;
     }
     #root {
         padding: 4em 0;
